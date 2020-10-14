@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.notice.mapper.NoticeMapper">
+	
+	
+	<!-- 공지 사항 리스트 -->
+	<select id="noticelist" resultType="map" parameterType="map">
+		SELECT
+			NOTICE_SEQ,
+			NOTICE_TITLE,
+			NOTICE_USER_ID,
+			NOTICE_CONTENTS,
+			NOTICE_CREATEDATE,
+			IFNULL(NOTICE_UPDATEDATE,'') as NOTICE_UPDATEDATE
+		FROM
+			NOTICE
+		ORDER BY 
+			NOTICE_SEQ DESC;
+	</select>
+
+	<!-- 공지사항 수정 데이터 -->
+	<select id="noticedetail" resultType="map" parameterType="map">
+		SELECT
+			NOTICE_SEQ,
+			NOTICE_TITLE,
+			NOTICE_USER_ID,
+			NOTICE_CONTENTS,
+			NOTICE_CREATEDATE,
+			IFNULL(NOTICE_UPDATEDATE,'') as NOTICE_UPDATEDATE
+		FROM
+			NOTICE
+		WHERE
+			NOTICE_SEQ= #{NOTICE_SEQ};
+	</select>
+
+	<!-- 공지 사항 삭제-->
+	<delete id="noticedelete">
+		DELETE FROM NOTICE WHERE NOTICE_SEQ = #{NOTICE_SEQ}
+	</delete>
+
+	<!-- 공지 사항 업데이트 -->
+	<update id="noticeupdate">
+		UPDATE NOTICE 
+			SET NOTICE_TITLE = #{NOTICE_TITLE},
+				NOTICE_CONTENTS = #{NOTICE_CONTENTS},
+				NOTICE_UPDATEDATE = #{NOTICE_UPDATEDATE}
+		WHERE NOTICE_SEQ = #{NOTICE_SEQ}
+	</update>
+
+	<!-- 공지 사항 등록 seq -->
+	<select id="noticemaxseq" resultType="map" parameterType="map">
+		SELECT 
+			MAX(NOTICE_SEQ)+1 NOTICE_SEQ
+		FROM 
+			NOTICE
+	</select>
+	
+	<!-- 공지 사항 등록-->
+	<insert id="noticeinsert">
+	INSERT NOTICE (
+		NOTICE_SEQ,
+		NOTICE_TITLE,
+		NOTICE_USER_ID,
+		NOTICE_CONTENTS,
+		NOTICE_CREATEDATE
+	) VALUE (
+		#{NOTICE_SEQ},
+		#{NOTICE_TITLE},
+		#{NOTICE_USER_ID},
+		#{NOTICE_CONTENTS},
+		#{NOTICE_CREATEDATE}
+	)
+	</insert>
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+

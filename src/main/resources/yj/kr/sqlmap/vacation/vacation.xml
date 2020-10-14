@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.vacation.mapper.VacationMapper">
+	
+	<select id="vacationlist" resultType="map" parameterType="map">
+		SELECT
+			A.VACATION_SEQ,
+			A.VACATION_USER_ID,
+			A.VACATION_CREATEDATE,
+			A.VACATION_STARTDATE,
+			A.VACATION_ENDDATE,
+			A.VACATION_SORT,
+			IFNULL(A.VACATION_PAYMENT_USER_ID,'') as VACATION_PAYMENT_USER_ID,
+			IFNULL(A.VACATION_PAYMENTDATE,'') as VACATION_PAYMENTDATE,
+			IFNULL(A.VACATION_STATE,'') as VACATION_STATE,
+			B.TEAM_CD
+		FROM
+			VACATION A JOIN USER_T B
+			on A.VACATION_USER_ID = B.USER_ID
+		AND
+			B.TEAM_CD = #{TEAM_CD}
+		ORDER BY 
+			VACATION_SEQ DESC
+	</select>
+
+
+	<select id="vacationmylist" resultType="map" parameterType="map">
+		SELECT
+			VACATION_SEQ,
+			VACATION_USER_ID,
+			VACATION_CREATEDATE,
+			VACATION_STARTDATE,
+			VACATION_ENDDATE,
+			VACATION_SORT,
+			IFNULL(VACATION_PAYMENT_USER_ID,'') as VACATION_PAYMENT_USER_ID,
+			IFNULL(VACATION_PAYMENTDATE,'') as VACATION_PAYMENTDATE,
+			IFNULL(VACATION_STATE,'') as VACATION_STATE
+		FROM
+			VACATION 
+		WHERE 
+			VACATION_USER_ID = #{VACATION_USER_ID}
+		ORDER BY 
+			VACATION_SEQ DESC
+	</select>
+		
+	<select id="vacationdatail" resultType="map" parameterType="map">
+		SELECT
+			VACATION_SEQ,
+			VACATION_USER_ID,
+			VACATION_CREATEDATE,
+			VACATION_STARTDATE,
+			VACATION_ENDDATE,
+			VACATION_SORT,
+			VACATION_PAYMENT_USER_ID,
+			VACATION_PAYMENTDATE,
+			VACATION_STATE
+		FROM
+			VACATION
+		WHERE
+			VACATION_SEQ = #{VACATION_SEQ}
+	</select>
+	
+	<select id="vacationsmaxseq" resultType="map" parameterType="map">
+		SELECT 
+			MAX(VACATION_SEQ)+1 VACATION_SEQ
+		FROM 
+			VACATION
+	</select>
+	
+	
+	<insert id="vacationinsert">
+	INSERT VACATION(
+		VACATION_SEQ,
+		VACATION_USER_ID,
+		VACATION_CREATEDATE,
+		VACATION_STARTDATE,
+		VACATION_ENDDATE,
+		VACATION_SORT,
+		VACATION_STATE
+	) VALUE (
+		#{VACATION_SEQ},
+		#{VACATION_USER_ID},
+		#{VACATION_CREATEDATE},
+		#{VACATION_STARTDATE},
+		#{VACATION_ENDDATE},
+		#{VACATION_SORT},
+		#{VACATION_STATE}
+	)
+	</insert>
+	
+	<update id="vacationupdate">
+		UPDATE VACATION 
+			SET VACATION_SORT = #{VACATION_SORT},
+				VACATION_STARTDATE = #{VACATION_STARTDATE},
+				VACATION_ENDDATE = #{VACATION_ENDDATE},
+				VACATION_STATE = #{VACATION_STATE}
+		WHERE VACATION_SEQ = #{VACATION_SEQ}
+	</update>
+	
+	<delete id="vacationdelete">
+		DELETE FROM VACATION WHERE VACATION_SEQ = #{VACATION_SEQ}
+	</delete>
+	
+	<update id="vacationpayment">
+		UPDATE VACATION 
+			SET VACATION_STATE = #{VACATION_STATE},
+				VACATION_PAYMENT_USER_ID = #{VACATION_PAYMENT_USER_ID},
+				VACATION_PAYMENTDATE = #{VACATION_PAYMENTDATE}
+		WHERE VACATION_SEQ = #{VACATION_SEQ}
+	</update>
+	
+	<update id="vacationback">
+		UPDATE VACATION 
+			SET VACATION_STATE = #{VACATION_STATE},
+				VACATION_PAYMENT_USER_ID = #{VACATION_PAYMENT_USER_ID},
+				VACATION_PAYMENTDATE = #{VACATION_PAYMENTDATE}
+		WHERE VACATION_SEQ = #{VACATION_SEQ}
+	</update>	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+

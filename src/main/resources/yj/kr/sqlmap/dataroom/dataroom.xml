@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.dataroom.mapper.DataroomMapper">
+		
+	<!-- 자료실 게시글 리스트 출력 -->	
+	<select id="dataroomlist" resultType="map" parameterType="map">
+		SELECT 
+	       DATAROOM_SEQ,
+	       DATAROOM_TITLE,
+	       DATAROOM_USER_ID,
+	       IFNULL(DATAROOM_UPLOAD,'') as DATAROOM_UPLOAD
+		FROM
+			DATAROOM
+		ORDER BY 
+			DATAROOM_SEQ DESC
+	</select>
+	
+	<update id="upload">
+		UPDATE DATAROOM
+		SET 
+			DATAROOM_UPLOAD = #{PATH}
+		WHERE
+			DATAROOM_SEQ = #{dataroomseq}
+	</update>
+	
+	<update id="uploaddelete">
+		UPDATE DATAROOM
+		SET 
+			DATAROOM_UPLOAD = ""
+		WHERE
+			DATAROOM_SEQ = #{SEQ}	
+	</update>
+	
+	
+	<!-- 공지 사항 등록 seq -->
+	<select id="dataroommaxseq" resultType="map" parameterType="map">
+		SELECT 
+			MAX(DATAROOM_SEQ)+1 DATAROOM_SEQ
+		FROM 
+			DATAROOM
+	</select>
+	
+	<insert id="dataroominsert">
+		INSERT DATAROOM(
+			DATAROOM_SEQ,
+			DATAROOM_TITLE,
+			DATAROOM_USER_ID
+		) VALUE (
+			#{DATAROOM_SEQ},
+			#{DATAROOM_TITLE},
+			#{DATAROOM_USER_ID}
+		)
+	</insert>
+	
+	<!-- 공지사항 수정 데이터 -->
+	<select id="dataroomdetail" resultType="map" parameterType="map">
+		SELECT
+			DATAROOM_SEQ,
+			DATAROOM_TITLE,
+			DATAROOM_USER_ID
+		FROM
+			DATAROOM
+		WHERE
+			DATAROOM_SEQ= #{DATAROOM_SEQ}
+	</select>
+	
+	<update id="dataroomupdate">
+		UPDATE DATAROOM
+		SET 
+			DATAROOM_TITLE = #{DATAROOM_TITLE}
+		WHERE
+			DATAROOM_SEQ = #{DATAROOM_SEQ}
+	</update>
+	
+	<delete id="dataroomdelete">
+		DELETE FROM DATAROOM WHERE DATAROOM_SEQ = #{DATAROOM_SEQ}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

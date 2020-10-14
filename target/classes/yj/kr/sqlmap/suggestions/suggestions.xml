@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.suggestions.mapper.SuggestionsMapper">
+	
+	<!-- 건의 사항 리스트 출력 -->
+	<select id="suggestionslist" resultType="map" parameterType="map">
+		SELECT
+			SUGGESTIONS_SEQ,
+			SUGGESTIONS_TITLE,
+			SUGGESTIONS_USER_ID,
+			SUGGESTIONS_CONTENTS,
+			SUGGESTIONS_CREATEDATE,
+			IFNULL(SUGGESTIONS_UPDATEDATE,'') as SUGGESTIONS_UPDATEDATE
+		FROM
+			SUGGESTIONS
+		ORDER BY 
+			SUGGESTIONS_SEQ DESC
+	</select>
+	
+	<!-- 건의사항 datil -->
+	<select id="suggestionsdatail" resultType="map" parameterType="map">
+		SELECT
+			SUGGESTIONS_SEQ,
+			SUGGESTIONS_TITLE,
+			SUGGESTIONS_USER_ID,
+			SUGGESTIONS_CONTENTS,
+			SUGGESTIONS_CREATEDATE,
+			IFNULL(SUGGESTIONS_UPDATEDATE,'') as SUGGESTIONS_UPDATEDATE
+		FROM
+			SUGGESTIONS
+		WHERE
+			SUGGESTIONS_SEQ = #{SUGGESTIONS_SEQ}
+	</select>
+	
+	<!-- 건의사항 등록 seq -->
+	<select id="suggestionsmaxseq" resultType="map" parameterType="map">
+		SELECT 
+			MAX(SUGGESTIONS_SEQ)+1 SUGGESTIONS_SEQ
+		FROM 
+			SUGGESTIONS
+	</select>
+	
+	<!-- 건의 사항 등록-->
+	<insert id="suggestionslisert">
+	INSERT SUGGESTIONS(
+		SUGGESTIONS_SEQ,
+		SUGGESTIONS_TITLE,
+		SUGGESTIONS_USER_ID,
+		SUGGESTIONS_CONTENTS,
+		SUGGESTIONS_CREATEDATE
+	) VALUE (
+		#{SUGGESTIONS_SEQ},
+		#{SUGGESTIONS_TITLE},
+		#{SUGGESTIONS_USER_ID},
+		#{SUGGESTIONS_CONTENTS},
+		#{SUGGESTIONS_CREATEDATE}
+	)
+	</insert>
+		
+
+	<!-- 건의 사항 업데이트 -->
+	<update id="suggestionsupdate">
+		UPDATE SUGGESTIONS 
+			SET SUGGESTIONS_TITLE = #{SUGGESTIONS_TITLE},
+				SUGGESTIONS_CONTENTS = #{SUGGESTIONS_CONTENTS},
+				SUGGESTIONS_UPDATEDATE = #{SUGGESTIONS_UPDATEDATE}
+		WHERE SUGGESTIONS_SEQ = #{SUGGESTIONS_SEQ}
+	</update>
+	
+	
+	<!-- 건의 사항 삭제-->
+	<delete id="suggestionsdelete">
+		DELETE FROM SUGGESTIONS WHERE SUGGESTIONS_SEQ = #{SUGGESTIONS_SEQ}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+

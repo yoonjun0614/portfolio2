@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.login.mapper.LoginMapper">
+	
+	
+	<!-- 로그인 아이디 체크 -->
+	<select id="loginchk" resultType="map" parameterType="map">
+		SELECT 
+			USER_ID
+		FROM USER_T
+		WHERE USER_ID = #{ID}
+	</select>
+
+	<!-- 아이디 찾기 -->
+	<select id="idfindchk" resultType="map" parameterType="map">
+		SELECT 
+			USER_ID
+		FROM USER_T
+		WHERE USER_NM = #{USERNM}
+		AND EMAIL = #{EMAIL}
+	</select>
+	
+	<!-- 로그인 비밀번호 체크 -->
+	<select id="passchk" resultType="map" parameterType="map">
+		SELECT 
+			USER_ID,
+			USER_NM,
+			TEAM_CD,
+			PASSWD,
+			TEL,
+			EMAIL,
+			POWER
+		FROM USER_T
+		WHERE USER_ID = #{ID}
+		AND PASSWD = #{PASSWD}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="passwdfindchk" resultType="map" parameterType="map">
+		SELECT 
+			PASSWD
+		FROM USER_T
+		WHERE USER_ID = #{USERID}
+		AND EMAIL = #{EMAIL}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

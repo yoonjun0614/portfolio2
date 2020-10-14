@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yj.kr.user.mapper.UserMapper">
+	
+	<!-- 유저 리스트 출력 -->
+	<select id="userlist" resultType="map" parameterType="map">
+		SELECT
+			USER_ID,
+			USER_NM,
+			PASSWD,
+			TEAM_CD,
+			PASSWD,
+			TEL,
+			EMAIL,
+			POWER
+		FROM
+			USER_T
+	</select>
+	
+	
+	<!-- 아이디 체크 -->
+	<select id="insertemailchk" resultType="map" parameterType="map">
+		SELECT
+			USER_ID,
+			USER_NM,
+			PASSWD,
+			TEL,
+			EMAIL,
+			TEAM_CD,
+			POWER
+		FROM
+			USER_T
+		WHERE
+			EMAIL = #{EMAIL}	
+	</select>
+	
+		
+	<!-- 아이디 체크 -->
+	<select id="idchk" resultType="map" parameterType="map">
+		SELECT
+			USER_ID,
+			USER_NM,
+			PASSWD,
+			TEL,
+			EMAIL,
+			TEAM_CD,
+			POWER
+		FROM
+			USER_T
+		WHERE
+			USER_ID = #{USERID}	
+	</select>
+	
+	<!-- 비밀번호 체크 -->
+	<select id="passchk" resultType="map" parameterType="map">
+		SELECT
+			USER_ID,
+			USER_NM,
+			PASSWD,
+			TEL,
+			EMAIL,
+			TEAM_CD,
+			POWER
+		FROM
+			USER_T
+		WHERE
+			USER_ID = #{USERID}	
+				AND
+			PASSWD = #{PASSWD}
+	</select>
+
+	<!-- 사용자 정보 등록 -->
+	<insert id="userinsert">
+		INSERT INTO USER_T(
+			USER_ID,
+			USER_NM,
+			PASSWD,
+			TEL,
+			EMAIL,
+			TEAM_CD,
+			POWER
+		)VALUE(
+			#{USERID},
+			#{USERNM},
+			#{PASSWD},
+			#{TEL},
+			#{EMAIL},
+			#{TEAMCD},
+			#{POWER}
+		)
+	</insert>
+	
+	<!-- 사용자 정보 업데이트 -->
+	<update id="userupdate">
+		UPDATE USER_T 
+			SET PASSWD = #{PASSWD},
+				USER_NM = #{USERNM},
+				TEL = #{TEL},
+				EMAIL = #{EMAIL},
+				POWER = #{POWER},
+				TEAM_CD = #{TEAMCD}
+		WHERE USER_ID = #{USERID}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
